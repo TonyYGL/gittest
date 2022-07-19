@@ -1,10 +1,11 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/db1?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2b8&useSSL=false
+    url: jdbc:mysql://192.168.36.138:3306/db1?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2b8&useSSL=false
     username: gittest_dev
     password: just4dev
 
   redis:
     database: 0
     port: 6379
+    host: 192.168.36.138
