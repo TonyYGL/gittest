@@ -4,3 +4,7 @@ spring:
     url: jdbc:mysql://localhost:3306/db1?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2b8&useSSL=false
     username: gittest_stage
     password: just4stage
+
+  redis:
+    database: 1
+    port: 6379

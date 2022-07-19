@@ -1,6 +1,8 @@
 package com.example.gittest.controller;
 
 import com.example.gittest.dto.UserDto;
+import com.example.gittest.exception.CustomException;
+import com.example.gittest.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +13,10 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/test")
-public class TestController {
+public class TestController extends BaseController {
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     @GetMapping("/hello")
     public String testController() {
@@ -27,4 +32,27 @@ public class TestController {
         return userDto;
     }
 
+    @GetMapping("/redis-test")
+    public String redisTest() {
+        redisTemplate.opsForValue().set("test", "test");
+        return redisTemplate.opsForValue().get("test").toString();
+    }
+
+    @GetMapping("/success")
+    public ResponseVo success() {
+        return getSuccess();
+    }
+
+    @GetMapping("/advice")
+    public ResponseVo testAdvice() {
+        if (true) {
+            throw new CustomException(100001, "Custom Exception");
+        }
+        return getSuccess();
+    }
+
+    @GetMapping("/fail")
+    public ResponseVo fail() {
+        return getFail();
+    }
 }
