@@ -3,3 +3,13 @@ server:
 spring:
   profiles:
     active: stage
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+url:
+  devUrl: dev.com
+  stageUrl: stage.com
+  prodUrl: prod.com
+

@@ -1,22 +1,35 @@
 package com.example.gittest.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.example.gittest.dto.UserDto;
 import com.example.gittest.exception.CustomException;
+import com.example.gittest.init.UrlInit;
+import com.example.gittest.service.IService;
+import com.example.gittest.service.MyService;
 import com.example.gittest.vo.ResponseVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
 @RestController
 @RequestMapping("/test")
+@Slf4j
 public class TestController extends BaseController {
 
-    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    private UrlInit urlInit;
+    private IService myService;
+
+    @Autowired
+    public TestController(RedisTemplate<String, Object> redisTemplate, UrlInit urlInit, IService myService) {
+        this.redisTemplate = redisTemplate;
+        this.urlInit = urlInit;
+        this.myService = myService;
+    }
 
     @GetMapping("/hello")
     public String testController() {
@@ -30,6 +43,11 @@ public class TestController extends BaseController {
         userDto.setName("Amy");
         userDto.setCreateDate(new Date());
         return userDto;
+    }
+
+    @GetMapping("/service")
+    public void getNumbers() {
+        myService.doService();
     }
 
     @GetMapping("/redis-test")
@@ -54,5 +72,16 @@ public class TestController extends BaseController {
     @GetMapping("/fail")
     public ResponseVo fail() {
         return getFail();
+    }
+
+    @GetMapping("/init")
+    public String init() {
+        return urlInit.toString();
+    }
+
+    @PostMapping("/userDto")
+    public UserDto userDto(@RequestBody UserDto userDto) {
+        log.info("/userDto 傳入參數: {}", userDto);
+        return userDto;
     }
 }
